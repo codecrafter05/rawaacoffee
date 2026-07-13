@@ -87,17 +87,25 @@
       position: relative; width: 128px; height: 128px; border-radius: 50%;
       border: 1.5px solid #4A2E15; background: transparent; color: #4A2E15;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: background .35s, color .35s;
+      transition: background .35s, color .35s; overflow: hidden; flex-shrink: 0;
     }
     .explore-btn:hover { background: #4A2E15; color: #F0E4CB; }
-    .explore-btn svg {
-      position: absolute; inset: 6px; animation: rw-spin 16s linear infinite;
+    .explore-btn .orbit {
+      position: absolute; inset: 8px; width: calc(100% - 16px); height: calc(100% - 16px);
+      animation: rw-spin 16s linear infinite; overflow: visible;
     }
-    .explore-btn text {
-      font-family: "Hanken Grotesk", sans-serif; font-size: 10.5px; font-weight: 600;
-      letter-spacing: .32em; fill: currentColor;
+    .explore-btn .orbit text {
+      font-family: "Hanken Grotesk", sans-serif;
+      font-size: 6.4px;
+      font-weight: 600;
+      letter-spacing: 0;
+      fill: currentColor;
+      text-transform: uppercase;
     }
-    .explore-btn .arrow { font-size: 26px; line-height: 1; }
+    .explore-btn .arrow {
+      position: relative; z-index: 1; width: 22px; height: 22px;
+      display: block; flex-shrink: 0; pointer-events: none;
+    }
     .marquee {
       border-top: 2px dotted rgba(74, 46, 21, .45); border-bottom: 2px dotted rgba(74, 46, 21, .45);
       padding: 13px 0; overflow: hidden; white-space: nowrap;
@@ -237,15 +245,18 @@
 
     <div class="hero-cta">
       <button class="explore-btn" type="button" data-go="hot" aria-label="Explore the menu">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
+        <svg class="orbit" viewBox="0 0 100 100" aria-hidden="true">
           <defs>
-            <path id="rw-circ" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"></path>
+            <path id="rw-circ" d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"></path>
           </defs>
           <text>
-            <textPath href="#rw-circ">EXPLORE &nbsp;&bull;&nbsp; THE MENU &nbsp;&bull;&nbsp;</textPath>
+            <textPath href="#rw-circ" xlink:href="#rw-circ" startOffset="0" textLength="251" lengthAdjust="spacing">EXPLORE · THE MENU · EXPLORE · THE MENU · </textPath>
           </text>
         </svg>
-        <span class="arrow">&darr;</span>
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 5v12"></path>
+          <path d="M7 13l5 5 5-5"></path>
+        </svg>
       </button>
     </div>
 
