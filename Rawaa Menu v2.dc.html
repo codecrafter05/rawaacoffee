@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@500;600;700;800&amp;family=Hanken+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #F0E4CB; color: #4A2E15; font-family: "Hanken Grotesk", sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #4A2E15; }
+  a:hover { color: #A8842B; }
+  ::selection { background: #4A2E15; color: #F0E4CB; }
+  @keyframes rw-logo-in { 0% { opacity: 0; transform: scale(.92) translateY(14px); } 55% { opacity: 1; } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+  @keyframes rw-line-grow { from { width: 0; } to { width: 120px; } }
+  @keyframes rw-fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes rw-fade-up { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes rw-splash-out { 0%, 76% { transform: translateY(0); } 100% { transform: translateY(-102%); visibility: hidden; } }
+  @keyframes rw-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes rw-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+</style>
+</helmet>
+
+<sc-if value="{{ showSplash }}" hint-placeholder-val="{{ true }}">
+  <div data-screen-label="Intro" style="position: fixed; inset: 0; z-index: 80; background: #F0E4CB; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 34px; animation: rw-splash-out 3.4s cubic-bezier(.83,0,.17,1) forwards; will-change: transform;">
+    <img src="assets/logo-full.png" alt="Rawaa Speciality Coffee" style="width: min(56vw, 380px); animation: rw-logo-in 1.5s cubic-bezier(.22,1,.36,1) both;">
+    <div style="height: 1px; border-top: 2px dotted rgba(74,46,21,.5); animation: rw-line-grow 1.2s .7s cubic-bezier(.22,1,.36,1) both; width: 120px;"></div>
+    <div style="font-size: 12px; font-weight: 600; letter-spacing: .42em; text-indent: .42em; text-transform: uppercase; opacity: 0; animation: rw-fade-in 1s 1.1s both;">Ahlan &middot; Welcome</div>
+  </div>
+</sc-if>
+
+<header style="position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 5vw; background: rgba(240,228,203,.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px dotted rgba(74,46,21,.4);">
+  <div style="display: flex; align-items: center; gap: 14px;">
+    <img src="assets/logo-mark.png" alt="Rawaa" style="height: 30px;">
+    <span style="font-size: 11px; font-weight: 700; letter-spacing: .34em; text-transform: uppercase;">Rawaa Speciality Coffee</span>
+  </div>
+  <div style="font-size: 11px; font-weight: 500; letter-spacing: .28em; text-transform: uppercase; opacity: .65;">Manama &middot; Bahrain</div>
+</header>
+
+<section data-screen-label="Hero" style="min-height: calc(100vh - 63px); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden;">
+  <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 34px 5vw 0; font-size: 11px; font-weight: 600; letter-spacing: .3em; text-transform: uppercase;">
+    <span>Est. 2026 &mdash; Adliya</span>
+    <sc-if value="{{ showArabic }}" hint-placeholder-val="{{ true }}"><span style="font-size: 15px; letter-spacing: 0;">القائمة</span></sc-if>
+    <span>The Menu</span>
+  </div>
+
+  <div style="padding: 0 3vw; animation: rw-fade-up 1.1s .2s both;">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; font-family: 'Abhaya Libre', serif; font-weight: 700; font-size: clamp(88px, 16.5vw, 300px); line-height: .82; letter-spacing: -.01em;">
+      <span>R</span><span>A</span><span>W</span><span style="color: transparent; -webkit-text-stroke: 2px #4A2E15;">A</span><span>A</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 22px; margin-top: 30px; padding: 0 1vw;">
+      <div style="flex: 1; border-top: 2px dotted rgba(74,46,21,.45);"></div>
+      <div style="font-family: 'Abhaya Libre', serif; font-size: clamp(19px, 2.4vw, 27px); font-style: italic; text-align: center;">Speciality coffee, poured slowly.</div>
+      <div style="flex: 1; border-top: 2px dotted rgba(74,46,21,.45);"></div>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: center; padding: 26px 0 40px; animation: rw-fade-in 1.2s .8s both;">
+    <button onClick="{{ goMenu }}" aria-label="Explore the menu" style="position: relative; width: 128px; height: 128px; border-radius: 50%; border: 1.5px solid #4A2E15; background: transparent; color: #4A2E15; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .35s, color .35s;" style-hover="background: #4A2E15; color: #F0E4CB;">
+      <svg viewBox="0 0 100 100" style="position: absolute; inset: 6px; animation: rw-spin 16s linear infinite;" aria-hidden="true">
+        <defs><path id="rw-circ" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"></path></defs>
+        <text style="font-family: 'Hanken Grotesk', sans-serif; font-size: 10.5px; font-weight: 600; letter-spacing: .32em; fill: currentColor;"><textPath href="#rw-circ">EXPLORE &nbsp;&bull;&nbsp; THE MENU &nbsp;&bull;&nbsp;</textPath></text>
+      </svg>
+      <span style="font-size: 26px; line-height: 1;">&darr;</span>
+    </button>
+  </div>
+
+  <div style="border-top: 2px dotted rgba(74,46,21,.45); border-bottom: 2px dotted rgba(74,46,21,.45); padding: 13px 0; overflow: hidden; white-space: nowrap;">
+    <div style="display: inline-flex; animation: rw-marquee 26s linear infinite;">
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: .34em; text-transform: uppercase; padding-right: 3em;">Hot Bar &mdash; Cold Bar &mdash; Desserts &mdash; Light Bites &mdash; رواء للقهوة المختصة &mdash; Manama &mdash;&nbsp;</span>
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: .34em; text-transform: uppercase; padding-right: 3em;">Hot Bar &mdash; Cold Bar &mdash; Desserts &mdash; Light Bites &mdash; رواء للقهوة المختصة &mdash; Manama &mdash;&nbsp;</span>
+    </div>
+  </div>
+</section>
+
+<section id="sec-hot" data-screen-label="Hot Bar" style="padding: 110px 5vw 50px;">
+  <div style="display: flex; align-items: baseline; gap: 3vw; flex-wrap: wrap;">
+    <div style="font-family: 'Abhaya Libre', serif; font-weight: 800; font-size: clamp(90px, 13vw, 200px); line-height: .8; color: transparent; -webkit-text-stroke: 1.5px rgba(74,46,21,.4);">01</div>
+    <h2 style="margin: 0; font-family: 'Abhaya Libre', serif; font-weight: 700; font-size: clamp(58px, 9vw, 140px); line-height: .9; letter-spacing: -.01em;">Hot Bar</h2>
+    <sc-if value="{{ showArabic }}" hint-placeholder-val="{{ true }}"><div style="font-size: clamp(20px, 2.4vw, 30px); color: #A8842B;">المشروبات الساخنة</div></sc-if>
+  </div>
+  <div style="margin-top: 20px; border-top: 2px dotted rgba(74,46,21,.45);"></div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 236px), 1fr)); gap: clamp(28px, 3.5vw, 52px); margin-top: 54px;">
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="position: relative; border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="hot-saffron" shape="rect" radius="0" placeholder="Saffron Flat White"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; justify-content: center; margin-top: 2px;"><span style="display: inline-flex; align-items: center; gap: 6px; border: 1.5px dotted #A8842B; color: #A8842B; border-radius: 999px; padding: 5px 13px; font-size: 9.5px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase;">&#10022; Chef&rsquo;s Pick</span></div>
+      <div style="display: flex; align-items: baseline; gap: 12px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Saffron Flat White</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 2.200</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Velvety double ristretto beneath saffron-infused milk.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="hot-espresso" shape="rect" radius="0" placeholder="Espresso"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Espresso</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 1.200</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Single origin, pulled slow, honeyed crema.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="hot-spanish" shape="rect" radius="0" placeholder="Spanish Latte"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Spanish Latte</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 1.900</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Condensed-milk sweetness under silk foam.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="hot-v60" shape="rect" radius="0" placeholder="V60 Pour Over"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">V60 Pour Over</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 2.500</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Ethiopian lot &mdash; floral, tea-like, bright.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="hot-turkish" shape="rect" radius="0" placeholder="Turkish Cardamom"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Turkish Cardamom</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 1.600</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Brewed in copper, ground fine, served unhurried.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="hot-rosechoc" shape="rect" radius="0" placeholder="Rose Hot Chocolate"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Rose Hot Chocolate</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 2.000</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Single-origin cacao finished with a rose mist.</div>
+    </div>
+
+  </div>
+</section>
+
+<section id="sec-cold" data-screen-label="Cold Bar" style="padding: 110px 5vw 50px;">
+  <div style="display: flex; align-items: baseline; gap: 3vw; flex-wrap: wrap; flex-direction: row-reverse; justify-content: flex-end;">
+    <sc-if value="{{ showArabic }}" hint-placeholder-val="{{ true }}"><div style="font-size: clamp(20px, 2.4vw, 30px); color: #A8842B;">المشروبات الباردة</div></sc-if>
+    <h2 style="margin: 0; font-family: 'Abhaya Libre', serif; font-weight: 700; font-size: clamp(58px, 9vw, 140px); line-height: .9; letter-spacing: -.01em;">Cold Bar</h2>
+    <div style="font-family: 'Abhaya Libre', serif; font-weight: 800; font-size: clamp(90px, 13vw, 200px); line-height: .8; color: transparent; -webkit-text-stroke: 1.5px rgba(74,46,21,.4);">02</div>
+  </div>
+  <div style="margin-top: 20px; border-top: 2px dotted rgba(74,46,21,.45);"></div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 236px), 1fr)); gap: clamp(28px, 3.5vw, 52px); margin-top: 54px;">
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="cold-tahini" shape="rect" radius="0" placeholder="Tahini Iced Latte"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; justify-content: center; margin-top: 2px;"><span style="display: inline-flex; align-items: center; gap: 6px; border: 1.5px dotted #A8842B; color: #A8842B; border-radius: 999px; padding: 5px 13px; font-size: 9.5px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase;">&#10022; Chef&rsquo;s Pick</span></div>
+      <div style="display: flex; align-items: baseline; gap: 12px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Tahini Iced Latte</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 2.300</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Toasted sesame, cold espresso, oat silk.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="cold-icedspanish" shape="rect" radius="0" placeholder="Iced Spanish"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Iced Spanish</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 2.000</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Slow-poured over hand-cut ice.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="cold-coldbrew" shape="rect" radius="0" placeholder="Cold Brew"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Cold Brew, 18 Hours</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 1.900</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Steeped overnight; dark-chocolate finish.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="cold-yuzu" shape="rect" radius="0" placeholder="Yuzu Espresso Tonic"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Yuzu Espresso Tonic</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 2.400</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Citrus lift, fine bubbles, espresso poured through.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="cold-pistachio" shape="rect" radius="0" placeholder="Pistachio Iced Mocha"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Pistachio Iced Mocha</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 2.500</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Roasted pistachio cream, bitter cacao, cold espresso.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="cold-hibiscus" shape="rect" radius="0" placeholder="Sparkling Hibiscus"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Sparkling Hibiscus</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 1.700</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Cold-steeped hibiscus, orange blossom, soda.</div>
+    </div>
+
+  </div>
+</section>
+
+<section id="sec-desserts" data-screen-label="Desserts" style="padding: 110px 5vw 50px;">
+  <div style="display: flex; align-items: baseline; gap: 3vw; flex-wrap: wrap;">
+    <div style="font-family: 'Abhaya Libre', serif; font-weight: 800; font-size: clamp(90px, 13vw, 200px); line-height: .8; color: transparent; -webkit-text-stroke: 1.5px rgba(74,46,21,.4);">03</div>
+    <h2 style="margin: 0; font-family: 'Abhaya Libre', serif; font-weight: 700; font-size: clamp(58px, 9vw, 140px); line-height: .9; letter-spacing: -.01em;">Desserts</h2>
+    <sc-if value="{{ showArabic }}" hint-placeholder-val="{{ true }}"><div style="font-size: clamp(20px, 2.4vw, 30px); color: #A8842B;">الحلويات</div></sc-if>
+  </div>
+  <div style="margin-top: 20px; border-top: 2px dotted rgba(74,46,21,.45);"></div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 236px), 1fr)); gap: clamp(28px, 3.5vw, 52px); margin-top: 54px;">
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="des-datecake" shape="rect" radius="0" placeholder="Date Espresso Cake"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; justify-content: center; margin-top: 2px;"><span style="display: inline-flex; align-items: center; gap: 6px; border: 1.5px dotted #A8842B; color: #A8842B; border-radius: 999px; padding: 5px 13px; font-size: 9.5px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase;">&#10022; Chef&rsquo;s Pick</span></div>
+      <div style="display: flex; align-items: baseline; gap: 12px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Date Espresso Cake</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 2.800</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Khalas dates, espresso soak, brown-butter crumb.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="des-cheesecake" shape="rect" radius="0" placeholder="Cheesecake"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">San Sebasti&aacute;n Cheesecake</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 2.600</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Burnt top, molten centre, nothing else needed.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="des-kunafa" shape="rect" radius="0" placeholder="Pistachio Kunafa"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Pistachio Kunafa Cup</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 2.400</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Crisp kataifi, warm cheese, pistachio butter.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="des-milkcake" shape="rect" radius="0" placeholder="Saffron Milk Cake"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Saffron Milk Cake</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 2.200</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Three milks, saffron threads, chilled overnight.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="des-sable" shape="rect" radius="0" placeholder="Chocolate Sablé"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Dark Chocolate Sabl&eacute;</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 1.400</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Sea salt, 70% cacao, baked to order.</div>
+    </div>
+
+  </div>
+</section>
+
+<section id="sec-bites" data-screen-label="Light Bites" style="padding: 110px 5vw 140px;">
+  <div style="display: flex; align-items: baseline; gap: 3vw; flex-wrap: wrap; flex-direction: row-reverse; justify-content: flex-end;">
+    <sc-if value="{{ showArabic }}" hint-placeholder-val="{{ true }}"><div style="font-size: clamp(20px, 2.4vw, 30px); color: #A8842B;">لقيمات خفيفة</div></sc-if>
+    <h2 style="margin: 0; font-family: 'Abhaya Libre', serif; font-weight: 700; font-size: clamp(58px, 9vw, 140px); line-height: .9; letter-spacing: -.01em;">Light Bites</h2>
+    <div style="font-family: 'Abhaya Libre', serif; font-weight: 800; font-size: clamp(90px, 13vw, 200px); line-height: .8; color: transparent; -webkit-text-stroke: 1.5px rgba(74,46,21,.4);">04</div>
+  </div>
+  <div style="margin-top: 20px; border-top: 2px dotted rgba(74,46,21,.45);"></div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 236px), 1fr)); gap: clamp(28px, 3.5vw, 52px); margin-top: 54px;">
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="bit-zaatar" shape="rect" radius="0" placeholder="Za'atar Croissant"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; justify-content: center; margin-top: 2px;"><span style="display: inline-flex; align-items: center; gap: 6px; border: 1.5px dotted #A8842B; color: #A8842B; border-radius: 999px; padding: 5px 13px; font-size: 9.5px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase;">&#10022; Chef&rsquo;s Pick</span></div>
+      <div style="display: flex; align-items: baseline; gap: 12px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Za&rsquo;atar Croissant</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 1.800</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Laminated butter pastry, wild za&rsquo;atar, olive oil.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="bit-halloumi" shape="rect" radius="0" placeholder="Halloumi &amp; Fig Toast"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Halloumi &amp; Fig Toast</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 2.600</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Seared halloumi, fig preserve, sourdough.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="bit-truffle" shape="rect" radius="0" placeholder="Truffle Egg Brioche"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Truffle Egg Brioche</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 2.900</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Soft scramble, truffle butter, toasted brioche.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="bit-labneh" shape="rect" radius="0" placeholder="Labneh Bowl"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Labneh Bowl</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 2.300</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Strained labneh, date molasses, toasted seeds.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; transition: transform .4s cubic-bezier(.22,1,.36,1);" style-hover="transform: translateY(-8px);">
+      <sc-if value="{{ showPhotos }}" hint-placeholder-val="{{ true }}">
+        <div style="border: 2px dotted rgba(74,46,21,.5); border-radius: 500px 500px 16px 16px; padding: 10px;">
+          <div style="border-radius: 500px 500px 8px 8px; overflow: hidden; aspect-ratio: 5 / 5.8;">
+            <image-slot id="bit-almond" shape="rect" radius="0" placeholder="Almond Croissant"></image-slot>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 6px;">
+        <span style="font-family: 'Abhaya Libre', serif; font-size: 25px; font-weight: 600; line-height: 1.05;">Almond Croissant</span>
+        <span style="flex: 1; border-bottom: 2px dotted rgba(74,46,21,.35); transform: translateY(-4px); min-width: 20px;"></span>
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;">BHD 1.900</span>
+      </div>
+      <div style="font-size: 13.5px; opacity: .68; line-height: 1.5;">Twice-baked, frangipane heart, dusted sugar.</div>
+    </div>
+
+  </div>
+</section>
+
+<footer data-screen-label="Footer" style="background: #4A2E15; color: #F0E4CB; padding: 100px 5vw 120px; display: flex; flex-direction: column; align-items: center; gap: 40px; text-align: center;">
+  <img src="assets/logo-mark-cream.png" alt="Rawaa" style="height: clamp(70px, 10vw, 110px);">
+  <div style="font-family: 'Abhaya Libre', serif; font-weight: 700; font-size: clamp(64px, 12vw, 170px); line-height: .95;">Shukran<span style="color: #A8842B;">.</span></div>
+  <div style="display: flex; align-items: center; gap: 20px; width: min(680px, 88vw);">
+    <div style="flex: 1; border-top: 2px dotted rgba(240,228,203,.4);"></div>
+    <sc-if value="{{ showArabic }}" hint-placeholder-val="{{ true }}"><div style="font-size: 22px;">شكراً</div></sc-if>
+    <div style="flex: 1; border-top: 2px dotted rgba(240,228,203,.4);"></div>
+  </div>
+  <div style="font-size: 13px; font-weight: 500; letter-spacing: .26em; text-transform: uppercase; line-height: 2.2; opacity: .85;">Daily 7 AM &mdash; 11 PM &nbsp;&bull;&nbsp; Block 338, Adliya, Manama<br>All prices in Bahraini Dinar, inclusive of VAT</div>
+  <button onClick="{{ goTop }}" style="width: 104px; height: 104px; border-radius: 50%; border: 1.5px solid rgba(240,228,203,.7); background: transparent; color: #F0E4CB; cursor: pointer; font-family: 'Hanken Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; transition: background .35s, color .35s;" style-hover="background: #F0E4CB; color: #4A2E15;">&uarr;<br>Top</button>
+</footer>
+
+<nav style="position: fixed; left: 50%; transform: translateX(-50%); bottom: 22px; z-index: 60; display: flex; gap: 4px; padding: 7px; background: rgba(240,228,203,.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1.5px solid #4A2E15; border-radius: 999px; box-shadow: 0 10px 34px rgba(74,46,21,.18); max-width: 92vw; overflow-x: auto;">
+  <sc-for list="{{ cats }}" as="cat" hint-placeholder-count="4">
+    <button onClick="{{ cat.go }}" style="{{ cat.style }}"><span style="opacity: .55; font-size: 9px; letter-spacing: .1em; margin-right: 7px;">{{ cat.num }}</span>{{ cat.label }}</button>
+  </sc-for>
+</nav>
+
+<div style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+  <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="loader-slot" style="width: 0; height: 0;" hint-size="0px,0px"></x-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;intro&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Experience&quot; },
+  &quot;photos&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Experience&quot; },
+  &quot;arabic&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Experience&quot; }
+}">
+class Component extends DCLogic {
+  state = { active: 'hot' };
+
+  componentDidMount() {
+    this._onScroll = () => {
+      const ids = ['hot', 'cold', 'desserts', 'bites'];
+      let cur = 'hot';
+      for (const id of ids) {
+        const el = document.getElementById('sec-' + id);
+        if (el && el.getBoundingClientRect().top < window.innerHeight * 0.45) cur = id;
+      }
+      if (cur !== this.state.active) this.setState({ active: cur });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+  }
+
+  _scrollToSec(id) {
+    const el = document.getElementById('sec-' + id);
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 56;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+
+  renderVals() {
+    const espresso = '#4A2E15';
+    const cream = '#F0E4CB';
+    const defs = [
+      { id: 'hot', num: '01', label: 'Hot Bar' },
+      { id: 'cold', num: '02', label: 'Cold Bar' },
+      { id: 'desserts', num: '03', label: 'Desserts' },
+      { id: 'bites', num: '04', label: 'Light Bites' },
+    ];
+    const cats = defs.map((c) => {
+      const active = this.state.active === c.id;
+      return {
+        ...c,
+        go: () => this._scrollToSec(c.id),
+        style: {
+          border: 'none',
+          borderRadius: 999,
+          padding: '11px 18px',
+          background: active ? espresso : 'transparent',
+          color: active ? cream : espresso,
+          fontFamily: '"Hanken Grotesk", sans-serif',
+          fontSize: 12.5,
+          fontWeight: 700,
+          letterSpacing: '.1em',
+          textTransform: 'uppercase',
+          whiteSpace: 'nowrap',
+          cursor: 'pointer',
+          transition: 'background .3s, color .3s',
+        },
+      };
+    });
+    return {
+      cats,
+      showSplash: this.props.intro ?? true,
+      showPhotos: this.props.photos ?? true,
+      showArabic: this.props.arabic ?? true,
+      goMenu: () => this._scrollToSec('hot'),
+      goTop: () => window.scrollTo({ top: 0, behavior: 'smooth' }),
+    };
+  }
+}
+</script>
+</body>
+</html>
