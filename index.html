@@ -131,8 +131,14 @@
     .section-ar { font-size: clamp(20px, 2.4vw, 30px); color: #A8842B; }
     .section-rule { margin-top: 20px; border-top: 2px dotted rgba(74, 46, 21, .45); }
     .menu-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 236px), 1fr));
-      gap: clamp(28px, 3.5vw, 52px); margin-top: 54px;
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(18px, 2.4vw, 52px); margin-top: 54px;
+    }
+    @media (min-width: 700px) {
+      .menu-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1200px) {
+      .menu-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
     }
 
     .item {
@@ -154,11 +160,12 @@
       padding: 5px 13px; font-size: 9.5px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase;
     }
     .item-row {
-      display: flex; align-items: baseline; gap: 12px;
+      display: flex; align-items: baseline; gap: 12px; min-width: 0;
     }
     .item-row.spaced { margin-top: 6px; }
     .item-name {
       font-family: "Abhaya Libre", serif; font-size: 25px; font-weight: 600; line-height: 1.05;
+      min-width: 0;
     }
     .item-dots {
       flex: 1; border-bottom: 2px dotted rgba(74, 46, 21, .35);
@@ -166,6 +173,12 @@
     }
     .item-price {
       font-size: 14px; font-weight: 700; letter-spacing: .08em; white-space: nowrap;
+    }
+    @media (max-width: 1199px) {
+      .item-row { gap: 6px; }
+      .item-name { font-size: 16px; }
+      .item-dots { min-width: 8px; }
+      .item-price { font-size: 11px; letter-spacing: .04em; }
     }
     .item-desc { font-size: 13.5px; opacity: .68; line-height: 1.5; }
 
